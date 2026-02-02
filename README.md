@@ -65,15 +65,11 @@ A React-based application that enables users to create and manage TikTok ad camp
    VITE_TIKTOK_CLIENT_KEY=your_client_key_here
    VITE_TIKTOK_CLIENT_SECRET=your_client_secret_here
 
-   # Backend API URL
-   VITE_API_URL=http://localhost:3001
-
    # OAuth Redirect URI (must match TikTok app configuration)
    VITE_TIKTOK_REDIRECT_URI=http://localhost:5176/callback
    ```
 
-5. **Start Both Servers**:
-   - Backend server (see backend README)
+5. **Start Server**:
    - Frontend server: `bun run dev`
 
 ## How to Run the Project
@@ -124,7 +120,7 @@ tiktok-ads-app/
 2. App initiates PKCE-enhanced OAuth flow
 3. User authenticates with TikTok
 4. TikTok redirects back with authorization code
-5. Frontend exchanges code for token via backend
+5. Frontend exchanges code for token
 6. App stores tokens securely in sessionStorage
 7. User can now create ad campaigns
 
@@ -145,14 +141,13 @@ All errors are presented as human-readable messages to users without exposing ra
 ### Assumptions
 
 - TikTok Ads API access has been approved for your developer account
-- Backend server is running on `http://localhost:3001`
 - User has basic knowledge of OAuth flows
 
 ### Shortcuts/Considerations
 
 - Tokens are stored in sessionStorage (adequate for demo, consider refresh tokens for production)
 - Frontend validation is paired with backend validation
-- Mock data is used for music validation (in backend)
+- Mock data is used for music validation
 - UI assumes responsive design but not tested on all devices
 
 ## Environment Variables
@@ -160,8 +155,7 @@ All errors are presented as human-readable messages to users without exposing ra
 | Variable                  | Description              | Required                    |
 | ------------------------- | ------------------------ | --------------------------- |
 | VITE_TIKTOK_CLIENT_KEY    | TikTok app client key    | Yes                         |
-| VITE_TIKTOK_CLIENT_SECRET | TikTok app client secret | Yes (but stored in backend) |
-| VITE_API_URL              | Backend API URL          | Yes                         |
+| VITE_TIKTOK_CLIENT_SECRET | TikTok app client secret | Yes |
 | VITE_TIKTOK_REDIRECT_URI  | OAuth redirect URI       | Yes                         |
 
 ## Troubleshooting
@@ -170,11 +164,11 @@ All errors are presented as human-readable messages to users without exposing ra
 
 - **OAuth fails**: Verify redirect URI matches TikTok app configuration
 - **White screen**: Check browser console for errors
-- **Connection issues**: Ensure backend server is running
+- **Connection issues**: Ensure server is running
 
 ### Port Conflicts
 
-If port 5176 is in use, Vite will automatically select another port. Update your backend's `FRONTEND_URL` accordingly.
+If port 5176 is in use, Vite will automatically select another port.
 
 ## Tech Stack
 
@@ -183,7 +177,6 @@ If port 5176 is in use, Vite will automatically select another port. Update your
 - Tailwind CSS (v4) with gradients
 - React Router for navigation
 - Axios for API calls
-- Elysia.js backend (separate repo)
 
 ## Security Features
 
@@ -191,4 +184,4 @@ If port 5176 is in use, Vite will automatically select another port. Update your
 - Client secrets stored only on backend
 - CSRF protection with state parameters
 - Secure token storage in sessionStorage
-- Input validation on both frontend and backend
+- Input validation on frontend

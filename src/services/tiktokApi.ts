@@ -1,10 +1,8 @@
 import axios from "axios";
 import { getAuthUrlWithPkce } from "../utils/tiktokConfig";
 
-// ✅ SECURE: We call OUR backend, not TikTok directly
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
-// ✅ SAFE: Client key is public (not secret)
 const TIKTOK_CLIENT_KEY = import.meta.env.VITE_TIKTOK_CLIENT_KEY;
 const TIKTOK_REDIRECT_URI = import.meta.env.VITE_TIKTOK_REDIRECT_URI;
 
@@ -51,26 +49,17 @@ class TikTokApiService {
     this.accessToken = sessionStorage.getItem("tiktok_access_token");
   }
 
-  /**
-   * Step 1: Initiate OAuth - Redirect to TikTok with PKCE
-   * ✅ SECURE: Uses PKCE for enhanced security
-   */
   async initiateOAuth(): Promise<void> {
     if (!TIKTOK_CLIENT_KEY || !TIKTOK_REDIRECT_URI) {
       throw new Error(
         "TikTok OAuth is not configured. Check environment variables."
       );
     }
-
-    // Generate CSRF protection token
     const state = this.generateRandomState();
     sessionStorage.setItem("oauth_state", state);
 
     try {
-      // Use PKCE flow for enhanced security
       const { url, codeVerifier } = await getAuthUrlWithPkce(state);
-
-      // Store code verifier in sessionStorage for the callback
       sessionStorage.setItem("oauth_code_verifier", codeVerifier);
 
       console.log("🔐 Redirecting to TikTok OAuth with PKCE...");
@@ -80,11 +69,6 @@ class TikTokApiService {
       throw new Error("Failed to initiate OAuth. Please try again.");
     }
   }
-
-  /**
-   * Step 2: Handle OAuth callback
-   * ✅ SECURE: Calls OUR backend to exchange code
-   */
   async handleOAuthCallback(
     code: string,
     state: string
@@ -96,8 +80,6 @@ class TikTokApiService {
         "Invalid state parameter. Possible CSRF attack detected."
       );
     }
-
-    // Get the code verifier from sessionStorage for PKCE
     const codeVerifier = sessionStorage.getItem("oauth_code_verifier");
     if (!codeVerifier) {
       throw new Error("Missing code verifier. Possible session corruption.");
@@ -106,11 +88,9 @@ class TikTokApiService {
     console.log("🔑 Exchanging code for token via backend...");
 
     try {
-      // ✅ SECURE: Call OUR backend, not TikTok directly
-      // Backend has the client_secret safely
       const response = await axios.post<TokenResponse>(
         `${API_BASE_URL}/api/tiktok/token`,
-        { code, code_verifier: codeVerifier }, // Include code_verifier for PKCE
+        { code, code_verifier: codeVerifier },
         {
           headers: {
             "Content-Type": "application/json",
@@ -120,7 +100,6 @@ class TikTokApiService {
 
       const tokenData = response.data;
 
-      // Store tokens
       this.setAccessToken(tokenData.access_token);
 
       if (tokenData.refresh_token) {
@@ -132,7 +111,6 @@ class TikTokApiService {
         sessionStorage.setItem("tiktok_token_expiry", expiryTime.toString());
       }
 
-      // Clear CSRF state
       sessionStorage.removeItem("oauth_state");
 
       console.log("✅ Authentication successful");
@@ -144,16 +122,13 @@ class TikTokApiService {
     }
   }
 
-  /**
-   * Refresh expired token via backend
-   */
   async refreshToken(): Promise<TokenResponse | null> {
     const refreshToken = sessionStorage.getItem("tiktok_refresh_token");
     if (!refreshToken) {
       return null;
     }
 
-    console.log("🔄 Refreshing token via backend...");
+    console.log("🔄 Refreshing token...");
 
     try {
       const response = await axios.post<TokenResponse>(

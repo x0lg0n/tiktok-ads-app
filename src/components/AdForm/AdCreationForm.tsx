@@ -101,9 +101,9 @@ const AdCreationForm = () => {
       const isAuthenticated = await tiktokApiService.isAuthenticated();
 
       if (!isAuthenticated) {
-        // Save form data to localStorage and redirect to OAuth
+        // Save form data to localStorage and redirect to OAuth login screen
         localStorage.setItem("pendingAdData", JSON.stringify(formData));
-        navigate("/oauth/connect");
+        navigate("/oauth/login");
         return;
       }
 
