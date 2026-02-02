@@ -26,7 +26,7 @@ export function OAuthCallback() {
             break;
           case "invalid_scope":
             userMessage =
-              "Missing Ads permission. Ensure your TikTok app has the ads.manage scope and try again.";
+              "Invalid scope requested. Ensure your TikTok app has the user.info.basic scope enabled.";
             break;
           case "invalid_client":
             userMessage =
