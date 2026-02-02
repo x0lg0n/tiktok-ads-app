@@ -464,11 +464,7 @@ const AdCreationForm = () => {
                             value={formData.adText}
                             onChange={handleChange}
                             rows={4}
-                            className={`w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 transition-all ${
-                              errors.adText
-                                ? "border-red-500 bg-red-50 focus:ring-red-500/20"
-                                : "border-gray-200 focus:border-purple-500"
-                            }`}
+                            className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all resize-none"
                             placeholder="Grab attention with a compelling message that drives action. Keep it concise and engaging!"
                           />
                           <div className="flex justify-between items-center mt-3">
