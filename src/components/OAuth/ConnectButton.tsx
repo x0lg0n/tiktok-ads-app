@@ -1,5 +1,4 @@
 import { tiktokApiService } from "../../services/tiktokApi";
-import { useNavigate } from "react-router-dom";
 
 interface ConnectButtonProps {
   children?: React.ReactNode;
@@ -10,8 +9,6 @@ const ConnectButton = ({
   children = "Connect TikTok Ads Account",
   className = "",
 }: ConnectButtonProps) => {
-  const navigate = useNavigate();
-
   const handleConnect = async () => {
     try {
       // Save that user came from connect button
