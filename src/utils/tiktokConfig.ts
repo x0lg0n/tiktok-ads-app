@@ -4,7 +4,7 @@
 const TIKTOK_CONFIG = {
   clientKey: (import.meta.env.VITE_TIKTOK_CLIENT_KEY || import.meta.env.VITE_TIKTOK_CLIENT_ID || '').trim(),
   redirectUri: (import.meta.env.VITE_TIKTOK_REDIRECT_URI || import.meta.env.VITE_REDIRECT_URI || 'http://localhost:5173/callback').trim(),
-  scopes: ['user.info.basic', 'ads.manage'], // Ads permission scope required per assignment
+  scopes: ['user.info.basic'], // Basic user info scope for authentication
 };
 
 const PKCE_CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
