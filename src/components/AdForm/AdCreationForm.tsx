@@ -269,13 +269,18 @@ const AdCreationForm = () => {
                       name="adText" 
                       value={formData.adText} 
                       onChange={handleChange} 
-                      rows={4} 
-                      style={{ minHeight: "120px" }}
-                      className={`w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all resize-none bg-white ${errors.adText ? "border-red-500 bg-red-50 focus:ring-red-500/20" : "border-gray-200 focus:border-purple-500 focus:ring-purple-500/20"}`} 
+                      rows={6}
+                      className={`w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all resize-y ${
+                        errors.adText 
+                          ? "border-red-500 bg-red-50 focus:ring-red-500/20" 
+                          : "border-gray-300 bg-gray-50 focus:border-purple-500 focus:ring-purple-500/20"
+                      }`} 
                       placeholder="Grab attention with a compelling message that drives action. Keep it concise and engaging!" 
                     />
                     <div className="flex justify-between items-center mt-3">
-                      <div className="text-sm text-gray-500">{formData.adText.length}/100 characters</div>
+                      <div className="text-sm text-gray-500">
+                        {formData.adText.length}/100 characters
+                      </div>
                       {errors.adText && (
                         <p className="text-sm text-red-600 flex items-center">
                           <svg className="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 20 20">
