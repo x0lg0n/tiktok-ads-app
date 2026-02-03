@@ -57,8 +57,8 @@ const Home = () => {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12 items-center mb-20">
-          <div className="space-y-8">
+        <div className="flex justify-center mb-20">
+          <div className="w-full max-w-2xl">
             <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300">
               <div className="flex items-center mb-5">
                 <div className="w-12 h-12 bg-gradient-to-r from-pink-500 to-red-500 rounded-xl flex items-center justify-center mr-4">
@@ -99,38 +99,6 @@ const Home = () => {
               ) : (
                 <ConnectButton className="w-full py-4 text-base font-semibold" />
               )}
-            </div>
-          </div>
-
-          <div className="space-y-8">
-            <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300">
-              <div className="flex items-center mb-5">
-                <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl flex items-center justify-center mr-4">
-                  <svg
-                    className="w-6 h-6 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-                  </svg>
-                </div>
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Quick Start
-                </h2>
-              </div>
-              <p className="text-gray-600 mb-6 text-lg">
-                Start creating ads immediately without connection. Connect later
-                to publish.
-              </p>
-              <Link
-                to="/create-ad"
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-6 rounded-xl text-center block transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg">
-                Create Ad Without Connection
-              </Link>
             </div>
           </div>
         </div>
@@ -205,6 +173,12 @@ const Home = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        <div className="text-center mt-12 text-gray-500">
+          <p className="text-sm">
+            Secure • Encrypted • Trusted by 1000+ businesses
+          </p>
         </div>
       </div>
     </div>

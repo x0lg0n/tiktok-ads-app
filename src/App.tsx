@@ -6,6 +6,7 @@ import { OAuthCallback } from "./components/OAuth/OAuthCallback.tsx";
 import AdCreationForm from "./components/AdForm/AdCreationForm.tsx";
 import ConnectButton from "./components/OAuth/ConnectButton.tsx";
 import OAuthLoginScreen from "./components/OAuth/OAuthLoginScreen.tsx";
+import Success from "./components/AdForm/Success.tsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/oauth/callback" element={<OAuthCallback />} />
       <Route path="/callback" element={<OAuthCallback />} />
       <Route path="/create-ad" element={<AdCreationForm />} />
+      <Route path="/success" element={<Success />} />
     </Routes>
   );
 }

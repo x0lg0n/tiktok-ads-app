@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { tiktokApiService } from "../../services/tiktokApi";
 import AdPreview from "./AdPreview";
@@ -24,6 +24,35 @@ const AdCreationForm = () => {
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
+  // Handle pending ad data after OAuth
+  useEffect(() => {
+    const pendingAdData = localStorage.getItem("pendingAdData");
+    if (pendingAdData) {
+      try {
+        const data = JSON.parse(pendingAdData);
+        setFormData(data);
+        localStorage.removeItem("pendingAdData");
+        
+        // Auto-submit if we just came back from OAuth
+        const autoSubmit = async () => {
+          setIsSubmitting(true);
+          try {
+            await tiktokApiService.createAd(data);
+            navigate("/success");
+          } catch (error) {
+            console.error("Error auto-submitting ad:", error);
+            alert("Failed to create ad campaign after connection. Please try again.");
+          } finally {
+            setIsSubmitting(false);
+          }
+        };
+        autoSubmit();
+      } catch (e) {
+        console.error("Error parsing pending ad data:", e);
+      }
+    }
+  }, [navigate]);
 
   const validateCurrentStep = (): boolean => {
     const newErrors: Partial<FormData> = {};
@@ -108,8 +137,7 @@ const AdCreationForm = () => {
       const response = await tiktokApiService.createAd(formData);
       console.log("Ad campaign created:", response);
 
-      alert("Ad campaign created successfully!");
-      navigate("/");
+      navigate("/success");
     } catch (error) {
       console.error("Error creating ad campaign:", error);
       alert("Failed to create ad campaign. Please try again.");
@@ -212,7 +240,15 @@ const AdCreationForm = () => {
               <span className="text-red-500 ml-1">*</span>
             </label>
             <p className="text-sm text-gray-600 mb-4">Your main message - make it catchy and actionable!</p>
-            <textarea id="adText" name="adText" value={formData.adText} onChange={handleChange} rows={4} className={`w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all resize-none ${errors.adText ? "border-red-500 bg-red-50 focus:ring-red-500/20" : "border-gray-200 focus:border-purple-500 focus:ring-purple-500/20"}`} placeholder="Grab attention with a compelling message that drives action. Keep it concise and engaging!" />
+            <textarea 
+              id="adText" 
+              name="adText" 
+              value={formData.adText} 
+              onChange={handleChange} 
+              rows={4} 
+              className={`w-full px-5 py-4 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all resize-none bg-white min-h-[120px] ${errors.adText ? "border-red-500 bg-red-50 focus:ring-red-500/20" : "border-gray-200 focus:border-purple-500 focus:ring-purple-500/20"}`} 
+              placeholder="Grab attention with a compelling message that drives action. Keep it concise and engaging!" 
+            />
             <div className="flex justify-between items-center mt-3">
               <div className="text-sm text-gray-500">{formData.adText.length}/100 characters</div>
               {errors.adText && (
